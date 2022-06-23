@@ -1,27 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
-import {Login} from './components/Login';
+import { Outlet, Link } from "react-router-dom";
 import {Clock} from "./components/counter/Counter";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Andrew <code>src/App.js</code> and save to reload.
-        </p>
-        <Clock></Clock>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+          <h1>Bookkeeper</h1>
+          <nav
+              style={{
+                  borderBottom: "solid 1px",
+                  paddingBottom: "1rem",
+              }}
+          >
+              <Link to="/components">Invoices</Link> |{" "}
+              <Link to="/components">Expenses</Link>
+          </nav>
+          <Outlet />
+      </div>
   );
 }
+
 
 export default App;
