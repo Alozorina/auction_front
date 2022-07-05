@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Button, Input, Spacer} from "@nextui-org/react";
-import "react-datepicker/dist/react-datepicker.css";
 import {required, validateLettersOnly, validateNameLength} from "../services/validator";
 import {toast} from "react-toastify";
 import {updatePersonalInfo} from "../services/user.service";
