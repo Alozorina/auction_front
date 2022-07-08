@@ -1,6 +1,6 @@
 import React from "react";
 import {ChangePersonalInfoForm} from "./ChangePersonalInfoForm";
-import {ChangeLoginPasswordForm} from "./ChangeLoginPasswordForm";
+import {ChangePasswordForm} from "./ChangePasswordForm";
 import {Button, Card, Grid, Spacer} from "@nextui-org/react";
 
 
@@ -47,8 +47,8 @@ export const NavigationTab = ({ firstname, lastname, email, birthday, isPersonal
                 <section>
                     {isPersonalProfileTab?
                         <ChangePersonalInfoForm ilastname={lastname} ibirthday={birthday}
-                                                        ifirstname={firstname}></ChangePersonalInfoForm>
-                        : <ChangeLoginPasswordForm iemail={email} ></ChangeLoginPasswordForm>}
+                                                        ifirstname={firstname} iemail={email}></ChangePersonalInfoForm>
+                        : <ChangePasswordForm iemail={email} ></ChangePasswordForm>}
                 </section>
             </Card.Body>
         </Card>

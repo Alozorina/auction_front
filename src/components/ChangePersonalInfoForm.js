@@ -1,33 +1,37 @@
 import React, {useState} from "react";
 import {Button, Input, Spacer} from "@nextui-org/react";
-import {required, validateLettersOnly, validateNameLength} from "../services/validator";
+import {required, validateEmailSyntax, validateLettersOnly, validateNameLength} from "../services/validator";
 import {toast} from "react-toastify";
 import {updatePersonalInfo} from "../services/user.service";
 import {useNavigate} from "react-router-dom";
 
 
-export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname}) => {
+export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail}) => {
+    const [email, setEmail] = useState(iemail);
     const [birthdate, setBirthdate] = useState(ibirthday??"");
     const [firstname, setFirstname] = useState(ifirstname);
     const [lastname, setLastname] = useState(ilastname);
     const [fnameError, setfNameError] = useState("");
     const [lnameError, setlNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
     const navigate = useNavigate();
 
-    const hasErrors = !!(lnameError || fnameError);
+    const hasErrors = !!(emailError || lnameError || fnameError);
     const handleUpdate = (e) => {
         e.preventDefault();
         if (!hasErrors) {
-            updatePersonalInfo(firstname, lastname, birthdate)
+            updatePersonalInfo(firstname, lastname, birthdate, email)
                 .then(response =>
                 {
                     setFirstname(response.firstName)
                     setLastname(response.lastName)
                     setBirthdate(response.birthDate)
+                    setEmail(response.email)
                     /*navigate("/profile");
                     window.location.reload();*/
                 },
                 (error) => {
+                    console.log({error});
                     toast(error.message);
                 }
             );
@@ -41,6 +45,10 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname}) => {
     const onChangeLastname = (e) => {
         const lastname = e.target.value;
         setLastname(lastname);
+    };
+    const onChangeEmail = (e) => {
+        const mail = e.target.value;
+        setEmail(mail);
     };
     const onChangeDate = (e) => {
         const birthday = e.target.value;
@@ -65,6 +73,11 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname}) => {
         const errorMessage = required(input) || validateNameLength(input) || validateLettersOnly(input);
         setlNameError(errorMessage);
     }
+    const validateEmail = (e) => {
+        let input = e.target.value;
+        const emailErrorMessage = required(input) || validateEmailSyntax(input);
+        setEmailError(emailErrorMessage);
+    }
     return (
         <form onSubmit={handleUpdate}>
             <Input width="350px"
@@ -87,6 +100,17 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname}) => {
                    label="Last Name"
                    value={lastname}
                    onChange={onChangeLastname}
+            />
+            <Spacer y={1.2}/>
+            <Input width="350px"
+                   onBlur={validateEmail}
+                   size="lg"
+                   shadow={true}
+                   helperColor={emailError ? "error" : "success"}
+                   helperText={emailError}
+                   label="Email"
+                   value={email}
+                   onChange={onChangeEmail}
             />
             <Spacer y={1.2}/>
             <Input width="350px"

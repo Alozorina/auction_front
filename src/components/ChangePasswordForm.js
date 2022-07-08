@@ -1,91 +1,65 @@
 import React, {useState} from "react";
 import {updateCreds} from "../services/user.service";
 import {toast} from "react-toastify";
-import {required, validateEmailSyntax, validateEqual, validatePasswordLength} from "../services/validator";
+import {required, validateEqual, validatePasswordLength} from "../services/validator";
 import {Button, Input, Spacer} from "@nextui-org/react";
 
 //TODO: change current token if credentials edited
-export const ChangeLoginPasswordForm = ({iemail}) => {
-    const [email, setEmail] = useState(iemail);
+export const ChangePasswordForm = () => {
     const [oldPassword, setOldPassword] = useState("");
-    const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [emailError, setEmailError] = useState("");
     const [oldPasswordError, setOldPasswordError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+    const [newPasswordError, setNewPasswordError] = useState("");
     const [confPasswordError, setconfPasswordError] = useState("");
 
-    const hasErrors = !!(emailError || passwordError || oldPasswordError || confPasswordError);
+    const hasErrors = !!(newPasswordError || oldPasswordError || confPasswordError);
     const handleUpdate = (e) => {
         e.preventDefault();
         if (!hasErrors) {
-            updateCreds(oldPassword, password, email, confirmPassword)
+            updateCreds(oldPassword, newPassword)
                 .then(response =>
                     {
-                        setEmail(response.email)
                         /*navigate("/profile");
                         window.location.reload();*/
                     },
                     (error) => {
-                        toast(error.message);
-                        //TODO: remove
-                        console.log({error});
-                        setOldPasswordError(error.message)
+                        toast(error.response.data);
                     }
                 );
         }
     };
 
-    const onChangeEmail = (e) => {
-        const mail = e.target.value;
-        setEmail(mail);
-    };
     const onChangeOldPassword = (e) => {
         const oldPassword = e.target.value;
         setOldPassword(oldPassword);
     };
-    const onChangePassword = (e) => {
+    const onChangeNewPassword = (e) => {
         const password = e.target.value;
-        setPassword(password);
+        setNewPassword(password);
     };
     const onChangeConfirmPassword = (e) => {
         const confirmPassword = e.target.value;
         setConfirmPassword(confirmPassword);
     };
-    const validateEmail = (e) => {
-        let input = e.target.value;
-        const emailErrorMessage = required(input) || validateEmailSyntax(input);
-        setEmailError(emailErrorMessage);
-    }
     const validateOldPassword = (e) => {
         let input = e.target.value;
         const errorMessage = required(input) || validatePasswordLength(input);
         setOldPasswordError(errorMessage);
     }
-    const validatePassword = (e) => {
+    const validateNewPassword = (e) => {
         let input = e.target.value;
         const errorMessage = required(input) || validatePasswordLength(input);
-        setPasswordError(errorMessage);
+        setNewPasswordError(errorMessage);
     }
     const validateConfPassword = (e) => {
         let input = e.target.value;
-        const errorMessage = required(input) || validatePasswordLength(input) || validateEqual(input, password);
+        const errorMessage = required(input) || validatePasswordLength(input) || validateEqual(input, newPassword);
         setconfPasswordError(errorMessage);
     }
 
     return (
         <form onSubmit={handleUpdate}>
-            <Input width="350px"
-                   onBlur={validateEmail}
-                   size="lg"
-                   shadow={true}
-                   helperColor={emailError ? "error" : "success"}
-                   helperText={emailError}
-                   label="Email"
-                   value={email}
-                   onChange={onChangeEmail}
-            />
-            <Spacer y={1.2}/>
             <Input.Password width="350px"
                    onBlur={validateOldPassword}
                    size="lg"
@@ -98,14 +72,14 @@ export const ChangeLoginPasswordForm = ({iemail}) => {
             />
             <Spacer y={1.2}/>
             <Input.Password width="350px"
-                   onBlur={validatePassword}
+                   onBlur={validateNewPassword}
                    size="lg"
                    shadow={true}
-                   helperColor={passwordError ? "error" : "success"}
-                   helperText={passwordError}
+                   helperColor={newPasswordError ? "error" : "success"}
+                   helperText={newPasswordError}
                    label="New Password"
-                   value={password}
-                   onChange={onChangePassword}
+                   value={newPassword}
+                   onChange={onChangeNewPassword}
             />
             <Spacer y={1.2}/>
             <Input.Password width="350px"
@@ -115,7 +89,7 @@ export const ChangeLoginPasswordForm = ({iemail}) => {
                    helperColor={confPasswordError ? "error" : "success"}
                    helperText={confPasswordError}
                    label="Confirm New Password"
-                   value={password}
+                   value={confirmPassword}
                    onChange={onChangeConfirmPassword}
             />
             <Spacer y={1.7}/>
