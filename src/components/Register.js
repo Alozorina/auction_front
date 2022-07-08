@@ -96,7 +96,7 @@ export const Register = () => {
     }
 
     return (
-        <Container css={{mw: "450px", marginTop: "6%"}}>
+        <Container css={{mw: "450px", marginTop: "4%"}}>
             <Card css={{mw: "450px", $$cardColor: '#384857', alignItems: "center", minHeight: "630px"}}>
                 <Card.Body>
                     <h3>
