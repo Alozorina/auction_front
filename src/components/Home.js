@@ -1,36 +1,38 @@
 import React from "react";
 import {Gallery} from "./Gallery";
 import {Banner} from "./Banner";
+import {getAllSortedByStartDate} from "../services/item.service";
+import {useQuery} from "react-query";
 
 export const Home = () => {
+    const {isLoading, error, data : items, isFetching} = useQuery("auctionsData", () =>
+            getAllSortedByStartDate(),
+        {
+            onSuccess: (resp) => {
+                console.log(resp)
+            }
+        });
+
     const homeStyle = {
         marginLeft: '8%',
         marginRight: '8%',
     };
 
-    const auctionlist = [
-        {
-            title: "Orange",
-            img: "/images/fruit-1.jpeg",
-            price: "$5.50",
-        },
-        {
-            title: "Tangerine",
-            img: "/images/fruit-2.jpeg",
-            price: "$3.00",
-        },
-        {
-            title: "Raspberry",
-            img: "/images/fruit-3.jpeg",
-            price: "$10.00",
-        },
-    ];
+    const itemList = items?? [];
 
     return (
         <div style={homeStyle}>
             <Banner></Banner>
-            <Gallery auctionlist={auctionlist} header={'UPCOMING AUCTIONS'} button={'VIEW ALL'}></Gallery>
-            <Gallery auctionlist={auctionlist} header={'POPULAR LOTS'}></Gallery>
+            {items && <Gallery
+                itemList={itemList.filter(i => i.status.name === "Open")}
+                header={'POPULAR LOTS'}
+                button={'VIEW ALL'}>
+            </Gallery>}
+            {items && <Gallery
+                itemList={itemList.filter(i => i.status.name === "Approved")}
+                header={'UPCOMING AUCTIONS'}
+                button={'VIEW ALL'}>
+            </Gallery>}
         </div>
 
     );
