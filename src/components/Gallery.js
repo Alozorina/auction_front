@@ -1,13 +1,17 @@
-import {Card, Grid, Image, Link, Row, Spacer, Text} from "@nextui-org/react";
+import {Card, Grid, Image, Link, Row, Spacer, Text, Col} from "@nextui-org/react";
+import {useNavigate} from "react-router-dom";
 import React from "react";
 import Arrow from "../svg/arrow-up-right-small.svg";
+import {IMAGE_PATH} from "../services/item.service";
 
 const gallery = {
-    minHeight: 450,
+    minHeight: 420,
     marginBottom: 30
 };
 
-export const Gallery = ({header, button, auctionlist}) => {
+export const Gallery = ({header, button, itemList}) => {
+    const navigate = useNavigate();
+
     return (
         <div style={gallery}>
             <Grid.Container>
@@ -28,24 +32,39 @@ export const Gallery = ({header, button, auctionlist}) => {
                 background: '#7A9CBA'
             }}/>
             <Grid.Container gap={2} justify="flex-start" css={{padding: '0'}}>
-                {auctionlist.map((item, index) => (
+                {itemList.map((item, index) => (
                     <Grid xs={12} sm={6} md={4} key={index}>
-                        <Card isPressable css={{borderRadius: '0'}}>
+                        <Card isPressable onClick={()=>navigate(`/auction/${item.id}`)}
+                              css={{borderRadius: '0'}}>
                             <Card.Body css={{p: 0}}>
                                 <Card.Image
-                                    src={"https://nextui.org" + item.img}
+                                    src={IMAGE_PATH + item.itemPhotos[0].path}
                                     objectFit="cover"
                                     width="100%"
-                                    height={250}
-                                    alt={item.title}
+                                    height={300}
+                                    alt={item.name}
                                 />
                             </Card.Body>
-                            <Card.Footer css={{justifyItems: "flex-start"}}>
-                                <Row wrap="wrap" justify="space-between" align="center">
-                                    <Text b>{item.title}</Text>
-                                    <Text css={{color: "$accents7", fontWeight: "$semibold", fontSize: "$sm"}}>
-                                        {item.price}
-                                    </Text>
+                            <Card.Footer isBlurred css={{position: "absolute",
+                                bgBlur: "#25364580", borderRadius: '0',
+                                bottom: 0, zIndex: 1}}>
+                                <Row>
+                                    <Col>
+                                        <Text b>{item.name}</Text>
+                                        <Text size={12}>
+                                            {item.createdBy}
+                                        </Text>
+                                    </Col>
+                                    <Col>
+                                        <Row justify="flex-end">
+                                            <Text b>${item.currentBid}</Text>
+                                        </Row>
+                                        <Row justify="flex-end">
+                                            <Text size={12}>
+                                                Current Bid
+                                            </Text>
+                                        </Row>
+                                    </Col>
                                 </Row>
                             </Card.Footer>
                         </Card>
