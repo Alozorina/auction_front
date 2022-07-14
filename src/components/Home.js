@@ -6,12 +6,7 @@ import {useQuery} from "react-query";
 
 export const Home = () => {
     const {isLoading, error, data : items, isFetching} = useQuery("auctionsData", () =>
-            getAllSortedByStartDate(),
-        {
-            onSuccess: (resp) => {
-                console.log(resp)
-            }
-        });
+            getAllSortedByStartDate());
 
     const homeStyle = {
         marginLeft: '8%',
@@ -24,12 +19,12 @@ export const Home = () => {
         <div style={homeStyle}>
             <Banner></Banner>
             {items && <Gallery
-                itemList={itemList.filter(i => i.status.name === "Open")}
+                itemList={itemList.filter(i => i.status.id === 4)}
                 header={'POPULAR LOTS'}
                 button={'VIEW ALL'}>
             </Gallery>}
             {items && <Gallery
-                itemList={itemList.filter(i => i.status.name === "Approved")}
+                itemList={itemList.filter(i => i.status.id === 2)}
                 header={'UPCOMING AUCTIONS'}
                 button={'VIEW ALL'}>
             </Gallery>}
