@@ -1,29 +1,20 @@
-import {Button, Card, Grid, Row, Text, Col} from "@nextui-org/react";
+import {Card, Col, Grid, Row, Spacer, Text} from "@nextui-org/react";
 import React from "react";
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import {IMAGE_PATH} from "../services/item.service";
-
-const images = [
-    {
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-];
-
+import Countdown from "react-countdown";
+import {ModalPlaceBid} from "./ModalPlaceBid";
 
 export const ItemProfile = ({item}) => {
+
     const paths = item.itemPhotos.map((iphoto) => {
-        return {original: IMAGE_PATH +iphoto.path};
-    })
+        return {
+            original: IMAGE_PATH + iphoto.path,
+            originalHeight: '50%'
+        };
+    });
+    const Completionist = () => <span>CLOSED</span>;
 
     return (
         <Grid.Container gap={3} justify="center">
@@ -35,32 +26,62 @@ export const ItemProfile = ({item}) => {
                     showThumbnails={false}
                     showFullscreenButton={false}/>
             </Grid>
-            <Grid sm={4}>
-                <Card>
-                    <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
+            <Grid sm={4} css={{maxHeight: '90vh'}}>
+                <Card css={{padding: '20px'}}>
+                    <Card.Header css={{zIndex: 1, top: 5}}>
                         <Col>
                             <Text size={12} weight="bold" transform="uppercase" color="#ffffffAA">
-                                New
+                                {item.status.name}
                             </Text>
-                            <Text h3 color="black">
-                                Acme camera
+                            <Text h3>
+                                {item.createdBy}
                             </Text>
+                            <Text size={20}>{item.name}</Text>
+                            <Spacer y={1} x={0}/>
+                            <Row>
+                                <Col>
+                                    Current Bid:
+                                    <Text b>{' '}${item.currentBid}</Text>
+                                </Col>
+                            </Row>
                         </Col>
                     </Card.Header>
-                    <Card.Divider/>
+                    {item.description && <Card.Divider/>}
                     <Card.Body css={{py: "$10"}}>
-                        <Text>
-                            Some quick example text to build on the card title and make up the
-                            bulk of the card's content.
+                        <Text size={14}>
+                            {item.description}
                         </Text>
+                        <Spacer y={1} x={0}/>
+                        <Card.Divider/>
+                        <Spacer y={1} x={0}/>
+                        <Row>
+                            {(item.status.id === 4) &&
+                                <Col>
+                                    Lot closes in: {' '}
+                                    <Text b>
+                                        <Countdown date={item.endSaleDate}>
+                                            <Completionist/>
+                                        </Countdown>
+                                    </Text>
+                                </Col>}
+                            {(item.status.id === 2) &&
+                                <Col>
+                                    Lot opens in: {' '}
+                                    <Text b>
+                                        <Countdown date={item.startSaleDate}>
+                                            <Completionist/>
+                                        </Countdown>
+                                    </Text>
+                                </Col>}
+                        </Row>
+                        {(item.status.id === 4) &&
+                            <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>}
+                        {(item.status.id === 2) &&
+                            <Text>{"Start Date: "}{item.startSaleDate.replace('T', ',  Time: ')}</Text>}
                     </Card.Body>
-                    <Card.Divider/>
                     <Card.Footer>
-                        <Row justify="flex-end">
-                            <Button size="sm" light>
-                                Cancel
-                            </Button>
-                            <Button size="sm">Agree</Button>
+                        <Row justify="flex-start" css={{paddingBottom: '10px'}}>
+                            <ModalPlaceBid item={item}></ModalPlaceBid>
                         </Row>
                     </Card.Footer>
                 </Card>
