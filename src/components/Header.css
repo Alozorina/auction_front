@@ -4,7 +4,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     background-color: #384857;
-    min-height: 84px;
+    min-height: 64px;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -12,7 +12,7 @@
 }
 
 .wrapper {
-    min-height: 84px;
+    min-height: 64px;
     min-width: 10px;
     display: flex;
     justify-content: space-between;

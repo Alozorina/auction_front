@@ -4,7 +4,7 @@ import './Header.css';
 import Logo from "../svg/logo.svg";
 import Search from "../svg/search.svg";
 import ShoppingCart from "../svg/shopping-cart.svg";
-import {Input} from "@nextui-org/react"
+import {Input, Link} from "@nextui-org/react"
 
 const useScrollDirection = () => {
     const [scrollDirection, setScrollDirection] = useState(null);
@@ -37,7 +37,9 @@ export const Header = () => {
         <div className={`navBar ${ scrollDirection === "down" ? "hidden" : "visible"}`}>
             <div className='wrapper'>
                 <div className={'navItem'}>
-                    <img src={Logo} className="logo" alt="icon"/>
+                    <Link onClick={()=>navigate('/')}>
+                        <img src={Logo} className="logo" alt="icon"/>
+                    </Link>
                 </div>
                 <div className={'navItem'}>
                 </div>
