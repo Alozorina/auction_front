@@ -22,10 +22,13 @@ const darkTheme = createTheme({
             inputColor: '#384857',
             selection: '#151D25',
             accents0: '#2B3B4A',
+            accents4: '#fff',
             border: '#fff',
             primaryLight: '#7fb6f5',
             secondaryLight: '#FFC300',
-            backgroundContrast: '#384857'
+            backgroundContrast: '#384857',
+            neutralLight: '#E1E1E1',
+            neutralLightHover: '#96B1C5',
         },
         space: {
             5: '13px'
@@ -52,7 +55,7 @@ const darkTheme = createTheme({
     }
 })
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
     return (
