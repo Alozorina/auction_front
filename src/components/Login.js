@@ -28,7 +28,7 @@ export const Login = () => {
         if (!hasErrors) {
             AuthenticationService.login(email, password).then(
                 () => {
-                    navigate("/profile");
+                    navigate("/");
                 },
                 (error) => {
                     toast(error.message);
@@ -50,7 +50,7 @@ export const Login = () => {
     }
 
     return (
-        <Container  css={{mw: "400px", marginTop: "10%"}}>
+        <Container  css={{mw: "400px", marginTop: "5%"}}>
             <Card css={{mw: "400px", $$cardColor: '#384857', alignItems: "center", minHeight: "520px"}}>
                 <Card.Body>
                     <Image css={{ marginTop: "15px"}}
