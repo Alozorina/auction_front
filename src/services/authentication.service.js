@@ -68,7 +68,8 @@ const getCurrentUser = async () => {
     let user = response.data;
     cachedProfile = {...user,
         email: userDataFromToken.Email,
-        role: userDataFromToken.Role
+        role: userDataFromToken.Role,
+        id: userDataFromToken.Id,
     };
     return cachedProfile;
 };
