@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import './Header.css';
 import Logo from "../svg/logo.svg";
 import Search from "../svg/search.svg";
 import ShoppingCart from "../svg/shopping-cart.svg";
-import {Input, Link} from "@nextui-org/react"
+import {Input, Link, User} from "@nextui-org/react"
+import {useAccessManager} from "../services/authorization.service";
 
 const useScrollDirection = () => {
     const [scrollDirection, setScrollDirection] = useState(null);
@@ -32,12 +33,13 @@ const useScrollDirection = () => {
 export const Header = () => {
     const navigate = useNavigate();
     const scrollDirection = useScrollDirection();
+    let {user} = useAccessManager();
 
     return (
-        <div className={`navBar ${ scrollDirection === "down" ? "hidden" : "visible"}`}>
+        <div className={`navBar ${scrollDirection === "down" ? "hidden" : "visible"}`}>
             <div className='wrapper'>
                 <div className={'navItem'}>
-                    <Link onClick={()=>navigate('/')}>
+                    <Link onClick={() => navigate('/')}>
                         <img src={Logo} className="logo" alt="icon"/>
                     </Link>
                 </div>
@@ -52,18 +54,32 @@ export const Header = () => {
                 <div className={'navItem'}>
                     <Input css={{position: "relative"}}
                            width='300px'
+                           type="text"
                            clearable
+                           bordered
+                           borderWeight='light'
                            contentRightStyling={false}
-                           placeholder="Search Auction"
+                           Placeholder="Search Auction"
                            contentRight={
-                               <img src={Search} id="search"alt="icon"/>
+                               <img src={Search} id="search" alt="icon"/>
                            }
                     />
                     <img src={ShoppingCart} id="cart" alt="icon"/>
                 </div>
-                <div className={'navItem'}>
-                    LOG IN
-                </div>
+                {user && <div className={'navItem'}>
+                    <Link onClick={() => navigate("/profile")}>
+                        <User
+                            name={user.firstName + " " + user.lastName}
+                            squared
+                            text={user.firstName[0]}
+                        />
+                    </Link>
+                </div>}
+                {!user && <div className={'navItem'}>
+                    <Link onClick={() => navigate("/login")}>
+                        LOG IN
+                    </Link>
+                </div>}
             </div>
         </div>
     );
