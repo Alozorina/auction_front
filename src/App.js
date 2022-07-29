@@ -3,7 +3,7 @@ import React from "react";
 import {Route, Routes} from "react-router-dom";
 import {Register} from "./components/Register";
 import {Login} from "./components/Login";
-import {Profile} from "./components/Profile";
+import {UserProfilePage} from "./components/UserProfilePage";
 import {Container, createTheme, NextUIProvider} from "@nextui-org/react"
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,9 +19,9 @@ const darkTheme = createTheme({
             // brand colors
             background: '#253645',
             text: '#fff',
-            inputColor: '#384857',
             selection: '#151D25',
-            accents0: '#2B3B4A',
+            accents0: '#415363',
+            accents2: '#142634',
             accents4: '#fff',
             border: '#fff',
             primaryLight: '#7fb6f5',
@@ -68,7 +68,7 @@ function App() {
                         <Route path="/auction/:id" element={<ItemPage/>}/>
                         <Route exact path="/login" element={<Login/>}/>
                         <Route exact path="/register" element={<Register/>}/>
-                        <Route exact path="/profile" element={<Profile/>}/>
+                        <Route exact path="/profile" element={<UserProfilePage/>}/>
                     </Routes>
                 </Container>
                 <ToastContainer/>
