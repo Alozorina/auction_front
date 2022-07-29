@@ -23,7 +23,6 @@ const setAuthToken = token => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     else {
-        console.log("deletetoken")
         delete axios.defaults.headers.common["Authorization"];
     }
 }
