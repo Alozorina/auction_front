@@ -1,4 +1,4 @@
-import {Card, Grid, Image, Link, Row, Spacer, Text, Col} from "@nextui-org/react";
+import {Card, Grid, Image, Link, Spacer, Text} from "@nextui-org/react";
 import {useNavigate} from "react-router-dom";
 import React from "react";
 import Arrow from "../svg/arrow-up-right-small.svg";
@@ -48,24 +48,20 @@ export const Gallery = ({header, button, itemList}) => {
                             <Card.Footer isBlurred css={{position: "absolute",
                                 bgBlur: "#25364580", borderRadius: '0',
                                 bottom: 0, zIndex: 1}}>
-                                <Row>
-                                    <Col>
+                                <Grid.Container gap={0} >
+                                    <Grid xs={9}>
                                         <Text b>{item.name}</Text>
-                                        <Text size={12}>
-                                            {item.createdBy}
-                                        </Text>
-                                    </Col>
-                                    <Col>
-                                        <Row justify="flex-end">
-                                            <Text b>${item.currentBid}</Text>
-                                        </Row>
-                                        <Row justify="flex-end">
-                                            <Text size={12}>
-                                                Current Bid
-                                            </Text>
-                                        </Row>
-                                    </Col>
-                                </Row>
+                                    </Grid>
+                                    <Grid xs={3} justify='flex-end'>
+                                        <Text b>${item.currentBid}</Text>
+                                    </Grid>
+                                    <Grid xs={9}>
+                                        <Text size={12}>{item.createdBy}</Text>
+                                    </Grid>
+                                    <Grid xs={3} justify='flex-end'>
+                                        <Text size={12}>Current Bid</Text>
+                                    </Grid>
+                                </Grid.Container>
                             </Card.Footer>
                         </Card>
                     </Grid>
