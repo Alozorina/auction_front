@@ -8,17 +8,19 @@ export const getAllUsers = async () => {
 export const getUserById = async (id) => {
     return await axios.get(API_URL + id);
 };
-export const updatePersonalInfo = (firstname, lastname, birthdate, email) =>{
+export const updatePersonalInfo = (firstname, lastname, birthdate, email) => {
     return axios.put(API_URL + "profile/edit", {
-        firstname, lastname, email, birthdate})
+        firstname, lastname, email, birthdate
+    })
         .then((response) => {
-        return response.data;
-    });
+            return response.data;
+        });
 };
 
-export const updateCreds = (oldPassword, newPassword) =>{
+export const updateCreds = (oldPassword, newPassword) => {
     return axios.put(API_URL + "profile/password", {
-        oldPassword, newPassword})
+        oldPassword, newPassword
+    })
         .then((response) => {
             return response.data;
         });

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Grid, Image} from "@nextui-org/react";
 import {RequireAuth} from "../services/authorization.service";
 import AuthenticationService from "../services/authentication.service";
-import {NavigationTab} from "./NavigationTab";
+import {UserProfile} from "./UserProfile";
 import {getAllSortedByStartDate, IMAGE_PATH} from "../services/item.service";
 
 
@@ -45,10 +45,10 @@ const AddItemContent = () => {
                 />}
             </Grid>
             <Grid xs={8}>
-                {user && <NavigationTab firstname={firstname} lastname={lastname} email={email}
-                                        birthday={birthday} isPersonalProfileTab={isPersonalProfileTab}
-                                        setIsPersonalProfileTab={setIsPersonalProfileTab}
-                ></NavigationTab>}
+                {user && <UserProfile firstname={firstname} lastname={lastname} email={email}
+                                      birthday={birthday} isPersonalProfileTab={isPersonalProfileTab}
+                                      setIsPersonalProfileTab={setIsPersonalProfileTab}
+                ></UserProfile>}
             </Grid>
         </Grid.Container>
     );
