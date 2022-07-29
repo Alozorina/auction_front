@@ -78,9 +78,11 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
         const emailErrorMessage = required(input) || validateEmailSyntax(input);
         setEmailError(emailErrorMessage);
     }
+
+    let inputStyleCss = {width:"100%", minWidth: "240px"};
     return (
         <form onSubmit={handleUpdate}>
-            <Input width="350px"
+            <Input css={inputStyleCss}
                    onBlur={validateFName}
                    size="lg"
                    shadow={true}
@@ -91,7 +93,7 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
                    onChange={onChangeFirstname}
             />
             <Spacer y={1.2}/>
-            <Input width="350px"
+            <Input css={inputStyleCss}
                    onBlur={validateLName}
                    size="lg"
                    shadow={true}
@@ -102,7 +104,7 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
                    onChange={onChangeLastname}
             />
             <Spacer y={1.2}/>
-            <Input width="350px"
+            <Input css={inputStyleCss}
                    onBlur={validateEmail}
                    size="lg"
                    shadow={true}
@@ -113,7 +115,7 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
                    onChange={onChangeEmail}
             />
             <Spacer y={1.2}/>
-            <Input width="350px"
+            <Input css={inputStyleCss}
                    type="date"
                    min={minDate}
                    max={maxDate}
@@ -124,7 +126,7 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
                    onChange={onChangeDate}
             />
             <Spacer y={1.7}/>
-            <Button type="submit" css={{width:"350px", minWidth: "250px", zIndex: '0'}}>
+            <Button type="submit" aria-label='Save'css={{width:"100%", minWidth: "240px", zIndex: '0'}}>
                 Save
             </Button>
         </form>);

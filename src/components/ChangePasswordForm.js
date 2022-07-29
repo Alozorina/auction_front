@@ -57,10 +57,10 @@ export const ChangePasswordForm = () => {
         const errorMessage = required(input) || validatePasswordLength(input) || validateEqual(input, newPassword);
         setconfPasswordError(errorMessage);
     }
-
+    let inputStyleCss = {width:"100%", minWidth: "240px"};
     return (
         <form onSubmit={handleUpdate}>
-            <Input.Password width="350px"
+            <Input.Password css={inputStyleCss}
                    onBlur={validateOldPassword}
                    size="lg"
                    shadow={true}
@@ -71,7 +71,7 @@ export const ChangePasswordForm = () => {
                    onChange={onChangeOldPassword}
             />
             <Spacer y={1.2}/>
-            <Input.Password width="350px"
+            <Input.Password css={inputStyleCss}
                    onBlur={validateNewPassword}
                    size="lg"
                    shadow={true}
@@ -82,7 +82,7 @@ export const ChangePasswordForm = () => {
                    onChange={onChangeNewPassword}
             />
             <Spacer y={1.2}/>
-            <Input.Password width="350px"
+            <Input.Password css={inputStyleCss}
                    onBlur={validateConfPassword}
                    size="lg"
                    shadow={true}
@@ -93,7 +93,7 @@ export const ChangePasswordForm = () => {
                    onChange={onChangeConfirmPassword}
             />
             <Spacer y={1.7}/>
-            <Button type="submit" css={{width:"350px", minWidth: "250px", zIndex: '0'}}>
+            <Button type="submit" aria-label='Save' css={inputStyleCss}>
                 Save
             </Button>
         </form>);
