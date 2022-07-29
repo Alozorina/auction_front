@@ -1,6 +1,7 @@
 import Art from "../images/steve-johnson-unsplash.jpg";
 import {Button, Card, Text} from "@nextui-org/react";
 import Arrow from "../svg/arrow-up-right.svg";
+import {useNavigate} from "react-router-dom";
 import React from "react";
 
 const bannerFirstBlock = {
@@ -19,6 +20,7 @@ const cardContent = {
 };
 
 export const Banner = () => {
+    const navigate = useNavigate();
     return (
         <div style={bannerFirstBlock}>
             <img style={bannerImg} src={Art} alt="art"/>
@@ -41,7 +43,9 @@ export const Banner = () => {
                             padding: '0px',
                             fontWeight: '700'
                         }}
-                                light auto iconRight={<img src={Arrow} alt="icon"/>}>
+                                light auto
+                                onClick={() => navigate("/auction/1")}
+                                iconRight={<img src={Arrow} alt="icon"/>}>
                             SEE MORE
                         </Button>
                     </div>
