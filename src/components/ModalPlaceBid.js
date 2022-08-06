@@ -4,7 +4,7 @@ import {updateBid} from "../services/item.service";
 import {toast} from "react-toastify";
 import {useAccessManager} from "../services/authorization.service";
 import {useNavigate} from "react-router-dom";
-import {required, validateNumGreaterThan} from "../services/validator";
+import {required, validateNumGreaterThan} from "../services/validation/validator";
 import {queryClient} from "../App";
 
 
@@ -12,20 +12,20 @@ export const ModalPlaceBid = ({item}) => {
     const [bid, setBid] = useState(item.currentBid);
     const [buyer, setBuyer] = useState(item.buyerId);
     const [visible, setVisible] = useState(false);
-    const [inputError, setInputError] = useState("");
+    const [inputErrorMessage, setInputErrorMessage] = useState("");
+    const [hasError, setHasError] = useState(true);
     const navigate = useNavigate();
 
-    let user = useAccessManager();
+    let {user} = useAccessManager();
     const handler = () => {
         if (!user)
             return navigate("/login");
-
         setVisible(true);
     }
 
     const handleUpdateBid = (e) => {
         e.preventDefault();
-        if (!inputError) {
+        if (!inputErrorMessage) {
             updateBid(item.id, parseInt(bid), buyer)
                 .then(response => {
                         queryClient.invalidateQueries('auctionsData')
@@ -42,27 +42,36 @@ export const ModalPlaceBid = ({item}) => {
 
     const closeHandler = () => {
         setVisible(false);
+        setBuyer(item.buyerId);
+        setHasError(true);
+        setInputErrorMessage("");
+        setBid(item.currentBid);
     };
 
     const onChangeInput = (e) => {
-        setBid(e.target.value)
-        setBuyer(user.id)
+        validateInput(e);
+        if(!hasError){
+            setBid(e.target.value)
+            setBuyer(user.id)
+        }
     }
 
     const validateInput = (e) => {
         let input = e.target.value;
         const errorMessage = required(input)
             || validateNumGreaterThan(
-                input,
-                item.startingPrice > item.currentBid ? item.startingPrice : item.currentBid);
-
-        setInputError(errorMessage);
+                input, item.startingPrice > item.currentBid ? item.startingPrice : item.currentBid);
+        setInputErrorMessage(errorMessage);
+        if(!inputErrorMessage)
+            setHasError(false);
     }
 
     return (
         <div>
-            <Button onClick={handler}
-                    size="lg">
+            <Button
+                onClick={handler}
+                disabled={(item.status !== "Open")}
+                size="lg">
                 PLACE BID
             </Button>
             <Modal
@@ -88,8 +97,8 @@ export const ModalPlaceBid = ({item}) => {
                             color="primary"
                             size="lg"
                             placeholder="Your Bid"
-                            helperColor={inputError ? "error" : "success"}
-                            helperText={inputError}
+                            helperColor={inputErrorMessage ? "error" : "success"}
+                            helperText={inputErrorMessage}
                             step='5'
                         />
                     </Modal.Body>
@@ -98,6 +107,7 @@ export const ModalPlaceBid = ({item}) => {
                             Close
                         </Button>
                         <Button auto
+                                disabled={hasError}
                                 type="submit">
                             Place Bid
                         </Button>
