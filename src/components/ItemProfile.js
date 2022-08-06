@@ -7,7 +7,6 @@ import Countdown from "react-countdown";
 import {ModalPlaceBid} from "./ModalPlaceBid";
 
 export const ItemProfile = ({item}) => {
-
     const paths = item.itemPhotos.map((iphoto) => {
         return {
             original: IMAGE_PATH + iphoto.path,
@@ -18,7 +17,7 @@ export const ItemProfile = ({item}) => {
 
     return (
         <Grid.Container gap={3} justify="center">
-            <Grid justify="center" sm={8}>
+            <Grid justify="center" md={8}>
                 <ImageGallery
                     items={paths}
                     showPlayButton={false}
@@ -26,7 +25,7 @@ export const ItemProfile = ({item}) => {
                     showThumbnails={false}
                     showFullscreenButton={false}/>
             </Grid>
-            <Grid sm={4} css={{maxHeight: '90vh'}}>
+            <Grid md={4} css={{maxHeight: '90vh', minHeight: '660px'}}>
                 <Card css={{padding: '20px'}}>
                     <Card.Header css={{zIndex: 1, top: 5}}>
                         <Col>
@@ -52,37 +51,38 @@ export const ItemProfile = ({item}) => {
                             {item.description}
                         </Text>
                         <Spacer y={1} x={0}/>
-                        <Card.Divider/>
-                        <Spacer y={1} x={0}/>
-                        <Row>
-                            {(item.status.id === 4) &&
-                                <Col>
-                                    Lot closes in: {' '}
-                                    <Text b>
-                                        <Countdown date={item.endSaleDate}>
-                                            <Completionist/>
-                                        </Countdown>
-                                    </Text>
-                                </Col>}
-                            {(item.status.id === 2) &&
-                                <Col>
-                                    Lot opens in: {' '}
-                                    <Text b>
-                                        <Countdown date={item.startSaleDate}>
-                                            <Completionist/>
-                                        </Countdown>
-                                    </Text>
-                                </Col>}
-                        </Row>
-                        {(item.status.id === 4) &&
-                            <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>}
-                        {(item.status.id === 2) &&
-                            <Text>{"Start Date: "}{item.startSaleDate.replace('T', ',  Time: ')}</Text>}
                     </Card.Body>
+                    <Card.Divider/>
+                    <Spacer y={1} x={0}/>
                     <Card.Footer>
-                        <Row justify="flex-start" css={{paddingBottom: '10px'}}>
-                            <ModalPlaceBid item={item}></ModalPlaceBid>
-                        </Row>
+                        <Grid.Container justify="flex-start">
+                            {(item.status === "Open")&&<Grid xs={12}>
+                                <div> Lot closes in: &nbsp; </div>
+                                <Text b>
+                                    <Countdown date={item.endSaleDate}>
+                                        <Completionist/>
+                                    </Countdown>
+                                </Text>
+                            </Grid>}
+                            {(item.status === "Upcoming")&&<Grid xs={12}>
+                                <div> Lot opens in: &nbsp; </div>
+                                <Text b>
+                                    <Countdown date={item.startSaleDate}>
+                                        <Completionist/>
+                                    </Countdown>
+                                </Text>
+                            </Grid>}
+                            {(item.status === "Upcoming")&&<Grid xs={12}>
+                                <Text>{"Start Date: "}{item.startSaleDate.replace('T', ',  Time: ')}</Text>
+                            </Grid>}
+                            {(item.status === "Open")&&<Grid xs={12}>
+                                <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>
+                            </Grid>}
+                            <Spacer y={2.5} x={0}/>
+                            <Grid xs={12}>
+                                <ModalPlaceBid item={item}></ModalPlaceBid>
+                            </Grid>
+                        </Grid.Container>
                     </Card.Footer>
                 </Card>
             </Grid>

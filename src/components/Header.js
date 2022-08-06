@@ -59,7 +59,7 @@ export const Header = () => {
                            bordered
                            borderWeight='light'
                            contentRightStyling={false}
-                           Placeholder="Search Auction"
+                           placeholder="Search Auction"
                            contentRight={
                                <img src={Search} id="search" alt="icon"/>
                            }

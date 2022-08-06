@@ -19,12 +19,12 @@ export const Home = () => {
         <div style={homeStyle}>
             <Banner></Banner>
             {items && <Gallery
-                itemList={itemList.filter(i => i.status.id === 4)}
+                itemList={itemList.filter(i => i.status === "Open")}
                 header={'POPULAR LOTS'}
                 button={'VIEW ALL'}>
             </Gallery>}
             {items && <Gallery
-                itemList={itemList.filter(i => i.status.id === 2)}
+                itemList={itemList.filter(i => i.status === "Upcoming")}
                 header={'UPCOMING AUCTIONS'}
                 button={'VIEW ALL'}>
             </Gallery>}

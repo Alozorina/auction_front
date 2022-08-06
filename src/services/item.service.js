@@ -8,7 +8,6 @@ export const getAllSortedByStartDate = async () => {
 };
 
 export const updateBid = async (itemId, currentBid, buyerId) => {
-    console.log({itemId, currentBid, buyerId})
     return axios.put(API_URL + itemId, {
         currentBid, buyerId})
         .then((response) => {
