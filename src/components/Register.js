@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../services/authentication.service";
-import {Button, Card, Container,  Input, Spacer} from "@nextui-org/react";
+import {Button, Card, Container, Input, Spacer} from "@nextui-org/react";
+import {required, validateLettersOnly,} from "../services/validation/validator";
+import {toast} from "react-toastify";
 import {
-    required,
-    validateEmailSyntax, validateEqual,
-    validateLettersOnly,
+    validateEmailSyntax,
+    validateEqual,
     validateNameLength,
     validatePasswordLength
-} from "../services/validator";
-import {toast} from "react-toastify";
+} from "../services/validation/userValidator";
 
 export const Register = () => {
     const [firstname, setFirstname] = useState("");
@@ -151,25 +151,25 @@ export const Register = () => {
                         />
                         <Spacer y={1.1}/>
                         <Input.Password width="250px"
-                                onBlur={validatePassword}
-                                label="Password"
-                                placeholder="Password"
-                                type = "password"
-                                helperColor={passwordError ? "error" : "success"}
-                                helperText={passwordError}
-                                value={password}
-                                onChange={onChangePassword}
+                                        onBlur={validatePassword}
+                                        label="Password"
+                                        placeholder="Password"
+                                        type="password"
+                                        helperColor={passwordError ? "error" : "success"}
+                                        helperText={passwordError}
+                                        value={password}
+                                        onChange={onChangePassword}
                         />
                         <Spacer y={1.1}/>
                         <Input.Password width="250px"
-                                onBlur={validateConfPassword}
-                                label="Confirm Password"
-                                placeholder="Confirm Password"
-                                type = "password"
-                                helperColor={confPasswordError ? "error" : "success"}
-                                helperText={confPasswordError}
-                                value={confirmPassword}
-                                onChange={onChangeConfirmPassword}
+                                        onBlur={validateConfPassword}
+                                        label="Confirm Password"
+                                        placeholder="Confirm Password"
+                                        type="password"
+                                        helperColor={confPasswordError ? "error" : "success"}
+                                        helperText={confPasswordError}
+                                        value={confirmPassword}
+                                        onChange={onChangeConfirmPassword}
                         />
                         <Spacer y={1.5}/>
                         <Button type="submit" css={{minWidth: "250px"}}>

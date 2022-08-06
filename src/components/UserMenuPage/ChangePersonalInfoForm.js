@@ -1,9 +1,14 @@
 import React, {useState} from "react";
 import {Button, Input, Spacer} from "@nextui-org/react";
-import {required, validateEmailSyntax, validateLettersOnly, validateNameLength} from "../services/validator";
+import {
+    getPastDate,
+    required,
+    validateLettersOnly,
+} from "../../services/validation/validator";
 import {toast} from "react-toastify";
-import {updatePersonalInfo} from "../services/user.service";
+import {updatePersonalInfo} from "../../services/user.service";
 import {useNavigate} from "react-router-dom";
+import {validateEmailSyntax, validateNameLength} from "../../services/validation/userValidator";
 
 
 export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail}) => {
@@ -55,13 +60,8 @@ export const ChangePersonalInfoForm = ({ibirthday, ifirstname, ilastname, iemail
         setBirthdate(birthday);
     };
 
-    const dateComparer = (number) => number < 10 ? '0' + number : number;
-    const getDate = (years) => {
-        let currentdate = new Date();
-        return `${currentdate.getFullYear() - years}-${dateComparer(currentdate.getMonth() + 1)}-${dateComparer(currentdate.getDate())}`;
-    }
-    let minDate = getDate(110);
-    let maxDate = getDate(18);
+    let minDate = getPastDate(110);
+    let maxDate = getPastDate(18);
 
     const validateFName = (e) => {
         let input = e.target.value;

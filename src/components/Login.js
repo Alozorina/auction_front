@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../services/authentication.service";
 import {Button, Card, Container, Image, Input, Spacer} from "@nextui-org/react";
-import {required, validateEmailSyntax, validatePasswordLength} from "../services/validator";
+import {required} from "../services/validation/validator";
 import { toast } from 'react-toastify';
+import {validateEmailSyntax, validatePasswordLength} from "../services/validation/userValidator";
 
 export const Login = () => {
     const [email, setEmail] = useState("");
@@ -89,7 +90,7 @@ export const Login = () => {
                             onChange={onChangePassword}
                         />
                         <Spacer y={1.2}/>
-                        <Button type="submit" css={{minWidth: "250px"}}>
+                        <Button type="submit" css={{minWidth: "250px"}} aria-label='Login'>
                             Login
                         </Button>
                     </form>

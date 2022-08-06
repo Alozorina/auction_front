@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {updateCreds} from "../services/user.service";
+import {updateCreds} from "../../services/user.service";
 import {toast} from "react-toastify";
-import {required, validateEqual, validatePasswordLength} from "../services/validator";
+import {required} from "../../services/validation/validator";
 import {Button, Input, Spacer} from "@nextui-org/react";
+import {validateEqual, validatePasswordLength} from "../../services/validation/userValidator";
 
 //TODO: change current token if credentials edited
 export const ChangePasswordForm = () => {
