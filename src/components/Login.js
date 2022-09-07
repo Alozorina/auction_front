@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../services/authentication.service";
 import {Button, Card, Container, Image, Input, Spacer} from "@nextui-org/react";
 import {required} from "../services/validation/validator";
 import { toast } from 'react-toastify';
 import {validateEmailSyntax, validatePasswordLength} from "../services/validation/userValidator";
+import {AppContext} from "./AppContext";
 
 export const Login = () => {
     const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export const Login = () => {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const navigate = useNavigate();
+    const {setUser} = useContext(AppContext);
 
     const onChangeEmail = (e) => {
         const mail = e.target.value;
@@ -27,8 +29,11 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         if (!hasErrors) {
-            AuthenticationService.login(email, password).then(
-                () => {
+            AuthenticationService.login(email, password)
+                .then(() => AuthenticationService.getCurrentUser())
+                .then(
+                (profile) => {
+                    setUser(profile);
                     navigate("/");
                 },
                 (error) => {

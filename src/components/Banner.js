@@ -35,7 +35,7 @@ export const Banner = () => {
                             Steve Johnson's Bright Colors
                         </Text>
                         <Card.Divider css={{width: '200px', marginTop: '20px', marginBottom: '20px'}}/>
-                        <h6>29 JULY 2022</h6>
+                        <h6>22 MAY 2023</h6>
                         <Button css={{
                             color: '#FFC300',
                             marginTop: '25px',

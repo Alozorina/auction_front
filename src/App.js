@@ -12,6 +12,7 @@ import {Home} from "./components/Home";
 import {Header} from "./components/Header";
 import {ItemPage} from "./components/ItemPage";
 import {AddItem} from "./components/UserMenuPage/AddItem";
+import {AppContextProvider} from "./components/AppContext";
 
 const darkTheme = createTheme({
     type: 'dark',
@@ -60,22 +61,24 @@ export const queryClient = new QueryClient();
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <NextUIProvider theme={darkTheme}>
-                <Header></Header>
-                <Container xl>
-                    <Routes>
-                        <Route exact path="/" element={<Home/>}/>
-                        <Route path="/auction/:id" element={<ItemPage/>}/>
-                        <Route exact path="/login" element={<Login/>}/>
-                        <Route exact path="/register" element={<Register/>}/>
-                        <Route exact path="/profile" element={<UserProfilePage/>}/>
-                        <Route exact path="/addlot" element={<AddItem/>}/>
-                    </Routes>
-                </Container>
-                <ToastContainer/>
-            </NextUIProvider>
-        </QueryClientProvider>
+        <AppContextProvider>
+            <QueryClientProvider client={queryClient}>
+                <NextUIProvider theme={darkTheme}>
+                    <Header></Header>
+                    <Container xl>
+                        <Routes>
+                            <Route exact path="/" element={<Home/>}/>
+                            <Route path="/auction/:id" element={<ItemPage/>}/>
+                            <Route exact path="/login" element={<Login/>}/>
+                            <Route exact path="/register" element={<Register/>}/>
+                            <Route exact path="/profile" element={<UserProfilePage/>}/>
+                            <Route exact path="/addlot" element={<AddItem/>}/>
+                        </Routes>
+                    </Container>
+                    <ToastContainer/>
+                </NextUIProvider>
+            </QueryClientProvider>
+        </AppContextProvider>
     );
 }
 
