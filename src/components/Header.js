@@ -10,6 +10,7 @@ import {useAccessManager} from "../services/authorization.service";
 const useScrollDirection = () => {
     const [scrollDirection, setScrollDirection] = useState(null);
 
+
     useEffect(() => {
         let lastScrollY = window.scrollY;
 
@@ -34,6 +35,9 @@ export const Header = () => {
     const navigate = useNavigate();
     const scrollDirection = useScrollDirection();
     let {user} = useAccessManager();
+    const [searchString, setSearchString] = useState("");
+
+    const onChangeSearch = (e) => setSearchString(e.target.value);
 
     return (
         <div className={`navBar ${scrollDirection === "down" ? "hidden" : "visible"}`}>
@@ -55,13 +59,13 @@ export const Header = () => {
                     <Input css={{position: "relative"}}
                            width='300px'
                            type="text"
-                           clearable
                            bordered
                            borderWeight='light'
                            contentRightStyling={false}
                            placeholder="Search Auction"
+                           onChange={onChangeSearch}
                            contentRight={
-                               <img src={Search} id="search" alt="icon"/>
+                               <Link href={"/search?query="+searchString}> <img src={Search} id="search" alt="icon"/></Link>
                            }
                     />
                     <img src={ShoppingCart} id="cart" alt="icon"/>
