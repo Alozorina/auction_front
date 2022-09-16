@@ -45,15 +45,15 @@ const login = (email, password) => {
             setAuthToken(token);
         });
 };
+
+let cachedProfile;
+
 const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    return axios.post(API_URL + "logout").then((response) => {
-        return response.data;
-    });
+    cachedProfile = null;
+    return axios.post(API_URL + "logout");
 };
-
-let cachedProfile;
 
 const getCurrentUser = async () => {
     if(cachedProfile)
