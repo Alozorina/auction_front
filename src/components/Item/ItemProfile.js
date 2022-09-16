@@ -2,9 +2,51 @@ import {Card, Col, Grid, Row, Spacer, Text} from "@nextui-org/react";
 import React from "react";
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
-import {IMAGE_PATH} from "../services/item.service";
+import {IMAGE_PATH} from "../../services/item.service";
 import Countdown from "react-countdown";
 import {ModalPlaceBid} from "./ModalPlaceBid";
+
+const Completionist = () => <span>CLOSED</span>;
+
+export const StatusHandler = (statusName, item) => {
+    switch (statusName) {
+        case "Open":
+        return <>
+            <Grid xs={12}>
+                <div> Lot closes in: &nbsp; </div>
+                <Text b>
+                    <Countdown date={item.endSaleDate}>
+                        <Completionist/>
+                    </Countdown>
+                </Text>
+            </Grid>
+            <Grid xs={12}>
+                <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>
+            </Grid>
+        </>
+        case "Upcoming":
+            return <>
+                <Grid xs={12}>
+                    <div> Lot opens in: &nbsp; </div>
+                    <Text b>
+                        <Countdown date={item.startSaleDate}>
+                            <Completionist/>
+                        </Countdown>
+                    </Text>
+                </Grid>
+                <Grid xs={12}>
+                    <Text>{"Start Date: "}{item.startSaleDate.replace('T', ',  Time: ')}</Text>
+                </Grid>
+            </>
+        default:
+            return <Grid xs={12}>
+                <div> Status: &nbsp; </div>
+                <Text b>
+                    {statusName}
+                </Text>
+            </Grid>
+    }
+}
 
 export const ItemProfile = ({item}) => {
     const paths = item.itemPhotos.map((iphoto) => {
@@ -13,7 +55,6 @@ export const ItemProfile = ({item}) => {
             originalHeight: '50%'
         };
     });
-    const Completionist = () => <span>CLOSED</span>;
 
     return (
         <Grid.Container gap={3} justify="center">
@@ -56,28 +97,7 @@ export const ItemProfile = ({item}) => {
                     <Spacer y={1} x={0}/>
                     <Card.Footer>
                         <Grid.Container justify="flex-start">
-                            {(item.status === "Open")&&<Grid xs={12}>
-                                <div> Lot closes in: &nbsp; </div>
-                                <Text b>
-                                    <Countdown date={item.endSaleDate}>
-                                        <Completionist/>
-                                    </Countdown>
-                                </Text>
-                            </Grid>}
-                            {(item.status === "Upcoming")&&<Grid xs={12}>
-                                <div> Lot opens in: &nbsp; </div>
-                                <Text b>
-                                    <Countdown date={item.startSaleDate}>
-                                        <Completionist/>
-                                    </Countdown>
-                                </Text>
-                            </Grid>}
-                            {(item.status === "Upcoming")&&<Grid xs={12}>
-                                <Text>{"Start Date: "}{item.startSaleDate.replace('T', ',  Time: ')}</Text>
-                            </Grid>}
-                            {(item.status === "Open")&&<Grid xs={12}>
-                                <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>
-                            </Grid>}
+                            {StatusHandler(item.status, item)}
                             <Spacer y={2.5} x={0}/>
                             <Grid xs={12}>
                                 <ModalPlaceBid item={item}></ModalPlaceBid>
