@@ -1,12 +1,11 @@
 import {Card, Grid, Image, Link, Spacer, Text} from "@nextui-org/react";
 import {useNavigate} from "react-router-dom";
 import React from "react";
-import Arrow from "../svg/arrow-up-right-small.svg";
-import {IMAGE_PATH} from "../services/item.service";
+import Arrow from "../../svg/arrow-up-right-small.svg";
+import {IMAGE_PATH} from "../../services/item.service";
 
 const gallery = {
-    minHeight: 420,
-    marginBottom: 30
+    marginBottom: 80,
 };
 
 export const Gallery = ({header, button, itemList}) => {
@@ -17,7 +16,7 @@ export const Gallery = ({header, button, itemList}) => {
             <Grid.Container>
                 <Grid xs={6}><h6>{header}</h6></Grid>
                 <Grid xs={6} css={{justifyContent: 'end'}}>
-                    <Link href="#" css={{color: '#FFC300'}}>
+                    <Link href="src/components/Item/Gallery#" css={{color: '#FFC300'}}>
                         <h6>{button}</h6>
                         <Spacer x={0.5} y={0}/>
                         {button && <Image src={Arrow} alt="art"/>}

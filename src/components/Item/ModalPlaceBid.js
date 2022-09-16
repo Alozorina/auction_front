@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {Button, Input, Modal, Text} from "@nextui-org/react";
-import {updateBid} from "../services/item.service";
+import {updateBid} from "../../services/item.service";
 import {toast} from "react-toastify";
-import {useAccessManager} from "../services/authorization.service";
+import {useAccessManager} from "../../services/authorization.service";
 import {useNavigate} from "react-router-dom";
-import {required, validateNumGreaterThan} from "../services/validation/validator";
-import {queryClient} from "../App";
+import {required, validateNumGreaterThan} from "../../services/validation/validator";
+import {queryClient} from "../../App";
 
 
 export const ModalPlaceBid = ({item}) => {

@@ -9,10 +9,10 @@ const bannerFirstBlock = {
 };
 const bannerImg = {
     position: 'relative',
-    margin: '4% 0 0 5%',
+    marginLeft: '5%',
     width: '95%',
     height: 550,
-    objectFit: "cover",
+    objectFit: "cover"
 }
 const cardContent = {
     paddingLeft: 40,

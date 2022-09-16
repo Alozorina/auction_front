@@ -10,9 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import {QueryClient, QueryClientProvider} from "react-query";
 import {Home} from "./components/Home";
 import {Header} from "./components/Header";
-import {ItemPage} from "./components/ItemPage";
-import {AddItem} from "./components/UserMenuPage/AddItem";
+import {ItemPage} from "./components/Item/ItemPage";
+import {AddItem} from "./components/Item/AddItem";
 import {AppContextProvider} from "./components/AppContext";
+import {SearchResultPage} from "./components/Item/SearchResultPage";
 
 const darkTheme = createTheme({
     type: 'dark',
@@ -57,8 +58,16 @@ const darkTheme = createTheme({
     }
 })
 
-export const queryClient = new QueryClient();
-
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchOnmount: false,
+            refetchOnReconnect: false,
+            retry: 2,
+        },
+    },
+});
 function App() {
     return (
         <AppContextProvider>
@@ -69,6 +78,7 @@ function App() {
                         <Routes>
                             <Route exact path="/" element={<Home/>}/>
                             <Route path="/auction/:id" element={<ItemPage/>}/>
+                            <Route path="/search" element={<SearchResultPage/>}/>
                             <Route exact path="/login" element={<Login/>}/>
                             <Route exact path="/register" element={<Register/>}/>
                             <Route exact path="/profile" element={<UserProfilePage/>}/>
