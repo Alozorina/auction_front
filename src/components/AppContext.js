@@ -1,4 +1,5 @@
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
+import AuthenticationService from "../services/authentication.service";
 
 export const AppContext = createContext({
     user: null,
@@ -15,6 +16,11 @@ export const AppContextProvider = ({children}) => {
     }
 
     const value = {user, setUser: setLoadedUser, isUserLoaded };
+
+    useEffect(() => {
+        AuthenticationService.getCurrentUser()
+            .then(setLoadedUser)
+    }, [])
 
     return <AppContext.Provider value={value}>
         {children}
