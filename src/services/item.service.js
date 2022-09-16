@@ -7,9 +7,24 @@ export const getAllSortedByStartDate = async () => {
         .then(resp => resp.data);
 };
 
+export const searchItems = async (searchParams) => {
+    return await axios.get(API_URL + "search=" + `${searchParams}`)
+        .then(resp => resp.data);
+};
+
+export const addItem = async (name, createdBy, ownerId, startingPrice, startSaleDate,
+                              endSaleDate, itemCategories, itemPhotos, description) => {
+    return await axios.post(API_URL, {
+        name, createdBy, ownerId, startingPrice, startSaleDate,
+        endSaleDate, itemCategories, itemPhotos, description
+    })
+        .then(resp => resp.data);
+}
+
 export const updateBid = async (itemId, currentBid, buyerId) => {
     return axios.put(API_URL + itemId, {
-        currentBid, buyerId})
+        currentBid, buyerId
+    })
         .then((response) => {
             return response.data;
         });
