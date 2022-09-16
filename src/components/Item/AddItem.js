@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Container, Grid, Input, Spacer} from "@nextui-org/react";
-import {updatePersonalInfo} from "../../services/user.service";
 import {toast} from "react-toastify";
 import {getFutureDate, required} from "../../services/validation/validator";
 import AuthenticationService from "../../services/authentication.service";
-import {LeftNavTab} from "./LeftNavTab";
+import {LeftNavTab} from "../UserMenuPage/LeftNavTab";
 import {RequireAuth} from "../../services/authorization.service";
 import {validateLotInputStringLength, validateLotPrice} from "../../services/validation/lotValidator";
+import {addItem} from "../../services/item.service";
+import {useNavigate} from "react-router-dom";
 
 const AddNewItem = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [ownerId, setOwnerId] = useState();
     const [createdBy, setCreatedBy] = useState("");
@@ -16,7 +18,7 @@ const AddNewItem = () => {
     const [startSaleDate, setStartSaleDate] = useState();
     const [endSaleDate, setEndSaleDate] = useState();
     const [itemCategories, setItemCategories] = useState();
-    const [itemFormFilePhotos, setItemFormFilePhotos] = useState();
+    const [itemPhotos, setItemPhotos] = useState();
     const [description, setDescription] = useState("");
 
     const [nameError, setNameError] = useState("");
@@ -24,20 +26,21 @@ const AddNewItem = () => {
     const [startingPriceError, setStartingPriceError] = useState("");
     const [startSaleDateError, setStartSaleDateError] = useState("");
     const [endSaleDateError, setEndSaleDateError] = useState("");
-    const [itemFormFilePhotosError, setItemFormFilePhotosError] = useState("");
+    const [itemPhotosError, setItemPhotosError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
 
     const hasErrors = !!(nameError || createdByError || startingPriceError || startSaleDateError
-        || endSaleDateError || itemFormFilePhotosError || descriptionError);
+        || endSaleDateError || itemPhotosError || descriptionError);
 
-    const handleUpdate = (e) => {
+    const handleSave = (e) => {
         e.preventDefault();
         if (!hasErrors) {
-            updatePersonalInfo(name, createdBy, ownerId, startingPrice, startSaleDate,
-                endSaleDate, itemCategories, itemFormFilePhotos, description)
-                .then(response =>
+            addItem(name, createdBy, ownerId, startingPrice, startSaleDate,
+                endSaleDate, itemCategories, itemPhotos, description)
+                .then((resp) =>
+                    navigate("/auction/"+resp.id),
                     (error) => {
-                        console.log({error});
+                        console.error({error});
                         toast(error.message);
                     }
                 );
@@ -58,6 +61,11 @@ const AddNewItem = () => {
     const onChangeName = (e) => {
         const input = e.target.value;
         setName(input);
+    };
+
+    const onChangePhoto = (e) => {
+        setItemPhotos(e.target.files[0]);
+        console.log(e.target.files[0], e)
     };
 
     const onStartSaleDate = (e) => {
@@ -97,6 +105,11 @@ const AddNewItem = () => {
         const errorMessage = required(input);
         setStartSaleDate(errorMessage);
     };
+    const validatePhotos = (e) => {
+        let input = e.target.value;
+        const errorMessage = required(input);
+        setItemPhotosError(errorMessage);
+    };
 
     let inputStyleCss = {width: "100%", minWidth: "240px"};
     return (
@@ -114,7 +127,7 @@ const AddNewItem = () => {
                         <h3>Add Item</h3>
                         <Card.Divider css={{width: '100%'}}/>
                         <Spacer y={1.2}/>
-                        <form onSubmit={handleUpdate}>
+                        <form onSubmit={handleSave}>
                             <Input css={inputStyleCss}
                                    onBlur={validateName}
                                    size="lg"
@@ -134,8 +147,8 @@ const AddNewItem = () => {
                                    helperColor={createdByError ? "error" : "success"}
                                    helperText={createdByError}
                                    label="Creator &nbsp;|&nbsp; Brand &nbsp;|&nbsp; Country and Year of Origin"
-                                   value={name}
-                                   onChange={onChangeName}
+                                   value={createdBy}
+                                   onChange={(e) => setCreatedBy(e.target.value)}
                                    placeholder="Edgar Degas"
                             />
                             <Spacer y={1.2}/>
@@ -174,8 +187,17 @@ const AddNewItem = () => {
                                    value={endSaleDate}
                                    onChange={onEndSaleDate}
                             />
+                            <Spacer y={1.2}/>
+                            <Input css={inputStyleCss}
+                                   label="Upload Item Photo"
+                                   onBlur={validatePhotos}
+                                   type="file"
+                                   name="file"
+                                   size="lg"
+                                   accept="image/*"
+                                   onChange={onChangePhoto} />
                             <Spacer y={1.7}/>
-                            <Button type="submit" aria-label='Save'
+                            <Button type="submit" aria-label='Save' onClick={handleSave}
                                     css={{width: "100%", minWidth: "240px", zIndex: '0'}}>
                                 Save
                             </Button>
