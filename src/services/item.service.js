@@ -7,17 +7,25 @@ export const getAllSortedByStartDate = async () => {
         .then(resp => resp.data);
 };
 
+export const getLots = async (id) => {
+    return await axios.get(API_URL+ "lots/user=" + id)
+        .then(resp => resp.data);
+};
+
+export const getPurchases = async (id) => {
+    return await axios.get(API_URL+ "purchases/user=" + id)
+        .then(resp => resp.data);
+};
+
 export const searchItems = async (searchParams) => {
     return await axios.get(API_URL + "search=" + `${searchParams}`)
         .then(resp => resp.data);
 };
 
-export const addItem = async (name, createdBy, ownerId, startingPrice, startSaleDate,
-                              endSaleDate, itemCategories, itemPhotos, description) => {
-    return await axios.post(API_URL, {
-        name, createdBy, ownerId, startingPrice, startSaleDate,
-        endSaleDate, itemCategories, itemPhotos, description
-    })
+export const addItem = async (addItemFormData) => {
+    return await axios.post(API_URL, addItemFormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'}})
         .then(resp => resp.data);
 }
 
