@@ -32,7 +32,7 @@ export const Gallery = ({header, button, itemList}) => {
             }}/>
             <Grid.Container gap={2} justify="flex-start" css={{padding: '0'}}>
                 {itemList.map((item, index) => (
-                    <Grid xs={12} sm={6} md={4} key={index}>
+                    <Grid xs={12} sm={12} md={6} lg={4} xl={4} key={index}>
                         <Card isPressable onClick={()=>navigate(`/auction/${item.id}`)}
                               css={{borderRadius: '0'}}>
                             <Card.Body css={{p: 0}}>
