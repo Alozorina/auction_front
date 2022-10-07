@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button, Card, Container, Grid, Input, Spacer} from "@nextui-org/react";
 import {toast} from "react-toastify";
 import {getFutureDate, required} from "../../services/validation/validator";
-import AuthenticationService from "../../services/authentication.service";
-import {LeftNavTab} from "../UserMenuPage/LeftNavTab";
-import {RequireAuth} from "../../services/authorization.service";
+import {LeftNavTab} from "./LeftNavTab";
+import {RequireAuth, useAccessManager} from "../../services/authorization.service";
 import {validateLotInputStringLength, validateLotPrice} from "../../services/validation/lotValidator";
 import {addItem} from "../../services/item.service";
 import {useNavigate} from "react-router-dom";
 
 const AddNewItem = () => {
+    let {user} = useAccessManager();
     const navigate = useNavigate();
     const [name, setName] = useState("");
-    const [ownerId, setOwnerId] = useState();
     const [createdBy, setCreatedBy] = useState("");
     const [startingPrice, setStartingPrice] = useState();
     const [startSaleDate, setStartSaleDate] = useState();
@@ -35,10 +34,19 @@ const AddNewItem = () => {
     const handleSave = (e) => {
         e.preventDefault();
         if (!hasErrors) {
-            addItem(name, createdBy, ownerId, startingPrice, startSaleDate,
-                endSaleDate, itemCategories, itemPhotos, description)
-                .then((resp) =>
-                    navigate("/auction/"+resp.id),
+            let addItemFormData = new FormData();
+            addItemFormData.append('Name', name);
+            addItemFormData.append('CreatedBy', createdBy);
+            addItemFormData.append('OwnerId', user.id);
+            addItemFormData.append('StartingPrice', startingPrice);
+            addItemFormData.append('StartSaleDate', startSaleDate);
+            addItemFormData.append('EndSaleDate', endSaleDate);
+            addItemFormData.append('ItemFormFilePhotos', itemPhotos);
+
+            addItem(addItemFormData)
+                .then((resp) => {
+                        navigate("/auction/" + resp.id)
+                    },
                     (error) => {
                         console.error({error});
                         toast(error.message);
@@ -47,63 +55,34 @@ const AddNewItem = () => {
         }
     };
 
-    let minStartSaleDate = getFutureDate(0);
-    let minEndSaleDate = getFutureDate(1);
+    let minStartSaleDate = getFutureDate(1);
+    let minEndSaleDate = getFutureDate(2);
     let maxDate = getFutureDate(180);
-
-    useEffect(() => {
-        AuthenticationService.getCurrentUser()
-            .then(userData => {
-                setOwnerId(userData.id)
-            });
-    }, []);
-
-    const onChangeName = (e) => {
-        const input = e.target.value;
-        setName(input);
-    };
-
-    const onChangePhoto = (e) => {
-        setItemPhotos(e.target.files[0]);
-        console.log(e.target.files[0], e)
-    };
-
-    const onStartSaleDate = (e) => {
-        const input = e.target.value;
-        setStartSaleDate(input);
-    };
-
-    const onEndSaleDate = (e) => {
-        const input = e.target.value;
-        setEndSaleDate(input);
-    };
-
-    const onChangePrice= (e) => {
-        const input = e.target.value;
-        setStartingPrice(input);
-    };
 
     const validateName = (e) => {
         let input = e.target.value;
         const errorMessage = required(input) || validateLotInputStringLength(input);
         setNameError(errorMessage);
     }
-
+    const validateCreatedBy = (e) => {
+        let input = e.target.value;
+        const errorMessage = required(e.target.value) || validateLotInputStringLength(input);
+        setlCreatedByError(errorMessage);
+    }
     const validatePrice = (e) => {
         let input = e.target.value;
         const errorMessage = required(input) || validateLotPrice(input);
         setStartingPriceError(errorMessage);
     }
-
     const validateStartSaleDate = (e) => {
         let input = e.target.value;
         const errorMessage = required(input);
-        setStartSaleDate(errorMessage);
+        setStartSaleDateError(errorMessage);
     };
     const validateEndSaleDate = (e) => {
         let input = e.target.value;
         const errorMessage = required(input);
-        setStartSaleDate(errorMessage);
+        setEndSaleDateError(errorMessage);
     };
     const validatePhotos = (e) => {
         let input = e.target.value;
@@ -118,7 +97,7 @@ const AddNewItem = () => {
                 <LeftNavTab></LeftNavTab>
             </Grid>
             <Grid md={6} sm={8} xs={12} css={{paddingLeft: "2%"}}>
-                {ownerId &&
+                {user &&
                     <Container css={{
                         margin: 'auto',
                         paddingTop: '3%',
@@ -127,7 +106,7 @@ const AddNewItem = () => {
                         <h3>Add Item</h3>
                         <Card.Divider css={{width: '100%'}}/>
                         <Spacer y={1.2}/>
-                        <form onSubmit={handleSave}>
+                        <form onSubmit={handleSave} >
                             <Input css={inputStyleCss}
                                    onBlur={validateName}
                                    size="lg"
@@ -136,12 +115,12 @@ const AddNewItem = () => {
                                    helperText={nameError}
                                    label="Name"
                                    value={name}
-                                   onChange={onChangeName}
+                                   onChange={(e) => setName(e.target.value)}
                                    placeholder="Mary Cassatt at the Louvre: The Paintings"
                             />
                             <Spacer y={1.2}/>
                             <Input css={inputStyleCss}
-                                   onBlur={validateName}
+                                   onBlur={validateCreatedBy}
                                    size="lg"
                                    shadow={true}
                                    helperColor={createdByError ? "error" : "success"}
@@ -153,15 +132,15 @@ const AddNewItem = () => {
                             />
                             <Spacer y={1.2}/>
                             <Input css={inputStyleCss}
-                                onChange={onChangePrice}
-                                onBlur={validatePrice}
-                                type="number"
-                                label='Starting Price'
-                                labelLeft="$"
-                                size="lg"
-                                placeholder="11.11"
-                                helperColor={startingPriceError ? "error" : "success"}
-                                helperText={startingPriceError}
+                                   onChange={(e) => setStartingPrice(e.target.value)}
+                                   onBlur={validatePrice}
+                                   type="number"
+                                   label='Starting Price'
+                                   labelLeft="$"
+                                   size="lg"
+                                   placeholder="11.11"
+                                   helperColor={startingPriceError ? "error" : "success"}
+                                   helperText={startingPriceError}
                             />
                             <Spacer y={1.2}/>
                             <Input css={inputStyleCss}
@@ -173,7 +152,7 @@ const AddNewItem = () => {
                                    shadow={true}
                                    label="Start Date of Sale"
                                    value={startSaleDate}
-                                   onChange={onStartSaleDate}
+                                   onChange={(e) => setStartSaleDate(e.target.value)}
                             />
                             <Spacer y={1.2}/>
                             <Input css={inputStyleCss}
@@ -185,7 +164,7 @@ const AddNewItem = () => {
                                    shadow={true}
                                    label="End Date of Sale"
                                    value={endSaleDate}
-                                   onChange={onEndSaleDate}
+                                   onChange={(e) => setEndSaleDate(e.target.value)}
                             />
                             <Spacer y={1.2}/>
                             <Input css={inputStyleCss}
@@ -195,9 +174,9 @@ const AddNewItem = () => {
                                    name="file"
                                    size="lg"
                                    accept="image/*"
-                                   onChange={onChangePhoto} />
-                            <Spacer y={1.7}/>
-                            <Button type="submit" aria-label='Save' onClick={handleSave}
+                                   onChange={(e) => setItemPhotos(e.target.files[0])}/>
+                            <Spacer y={1.2}/>
+                            <Button type="submit" aria-label='Save'
                                     css={{width: "100%", minWidth: "240px", zIndex: '0'}}>
                                 Save
                             </Button>
