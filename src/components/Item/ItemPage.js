@@ -10,7 +10,7 @@ export const ItemPage = () => {
     let {id} = useParams();
     if(!items)
         return <div>Loading...</div>;
-    const item = items.find(i => i.id === id);
+    const item = items.find(i => i.id == id);
     if(!item)
         return <div>Item not found</div>;
     return (
