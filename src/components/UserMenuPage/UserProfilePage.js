@@ -63,7 +63,7 @@ const ProfileContent = () => {
                                         bordered={!isPersonalProfileTab}
                                         flat
                                         aria-label='Password'
-                                        css={{borderColor: '#0072F5', backgroundColor: '$accents2', width: '20%', minWidth: '140px'}}>
+                                        css={{borderColor: '#0072F5', backgroundColor: '$accents2', width: '20%', minWidth: '140px', zIndex: "0"}}>
                                     Password
                                 </Button>
                             </Grid>
