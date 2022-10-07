@@ -107,7 +107,7 @@ export const ModalPlaceBid = ({item}) => {
                             Close
                         </Button>
                         <Button auto
-                                disabled={hasError}
+                                disabled={hasError || inputErrorMessage}
                                 type="submit">
                             Place Bid
                         </Button>
