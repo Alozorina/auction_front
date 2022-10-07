@@ -97,7 +97,7 @@ export const ItemProfile = ({item}) => {
                     <Spacer y={1} x={0}/>
                     <Card.Footer>
                         <Grid.Container justify="flex-start">
-                            {StatusHandler(item.status, item)}
+                            {StatusHandler(item.status.name, item)}
                             <Spacer y={2.5} x={0}/>
                             <Grid xs={12}>
                                 <ModalPlaceBid item={item}></ModalPlaceBid>

@@ -1,11 +1,11 @@
 import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import AuthenticationService from "../services/authentication.service";
+import AuthenticationService from "../../services/authentication.service";
 import {Button, Card, Container, Image, Input, Spacer} from "@nextui-org/react";
-import {required} from "../services/validation/validator";
+import {required} from "../../services/validation/validator";
 import { toast } from 'react-toastify';
-import {validateEmailSyntax, validatePasswordLength} from "../services/validation/userValidator";
-import {AppContext} from "./AppContext";
+import {validateEmailSyntax, validatePasswordLength} from "../../services/validation/userValidator";
+import {AppContext} from "../AppContext";
 
 export const Login = () => {
     const [email, setEmail] = useState("");

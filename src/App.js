@@ -1,19 +1,21 @@
 import './App.css';
 import React from "react";
 import {Route, Routes} from "react-router-dom";
-import {Register} from "./components/Register";
-import {Login} from "./components/Login";
+import {Register} from "./components/Login_Register/Register";
+import {Login} from "./components/Login_Register/Login";
 import {UserProfilePage} from "./components/UserMenuPage/UserProfilePage";
 import {Container, createTheme, NextUIProvider} from "@nextui-org/react"
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {QueryClient, QueryClientProvider} from "react-query";
-import {Home} from "./components/Home";
-import {Header} from "./components/Header";
+import {Home} from "./components/Home/Home";
+import {Header} from "./components/Header/Header";
 import {ItemPage} from "./components/Item/ItemPage";
-import {AddItem} from "./components/Item/AddItem";
+import {AddItem} from "./components/UserMenuPage/AddItem";
 import {AppContextProvider} from "./components/AppContext";
 import {SearchResultPage} from "./components/Item/SearchResultPage";
+import {UserLots} from "./components/UserMenuPage/UserLots";
+import {UserPurchases} from "./components/UserMenuPage/UserPurchases";
 
 const darkTheme = createTheme({
     type: 'dark',
@@ -51,7 +53,7 @@ const darkTheme = createTheme({
             xs: '520px',
             sm: '720px',
             md: '960px',
-            lg: '1400px',
+            lg: '1500px',
             xl: '1920px'
         },
 
@@ -68,6 +70,7 @@ export const queryClient = new QueryClient({
         },
     },
 });
+
 function App() {
     return (
         <AppContextProvider>
@@ -83,6 +86,8 @@ function App() {
                             <Route exact path="/register" element={<Register/>}/>
                             <Route exact path="/profile" element={<UserProfilePage/>}/>
                             <Route exact path="/addlot" element={<AddItem/>}/>
+                            <Route exact path="/lots" element={<UserLots/>}/>
+                            <Route exact path="/purchases" element={<UserPurchases/>}/>
                         </Routes>
                     </Container>
                     <ToastContainer/>

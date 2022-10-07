@@ -1,6 +1,6 @@
-import Art from "../images/steve-johnson-unsplash.jpg";
+import Art from "../../images/steve-johnson-unsplash.jpg";
 import {Button, Card, Text} from "@nextui-org/react";
-import Arrow from "../svg/arrow-up-right.svg";
+import Arrow from "../../svg/arrow-up-right.svg";
 import {useNavigate} from "react-router-dom";
 import React from "react";
 

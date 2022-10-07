@@ -1,7 +1,7 @@
 import React from "react";
-import {Gallery} from "./Item/Gallery";
+import {Gallery} from "../Item/Gallery";
 import {Banner} from "./Banner";
-import {getAllSortedByStartDate} from "../services/item.service";
+import {getAllSortedByStartDate} from "../../services/item.service";
 import {useQuery} from "react-query";
 
 export const baseMarginStyle = {
@@ -18,12 +18,12 @@ export const Home = () => {
         <div style={baseMarginStyle}>
             <Banner></Banner>
             {items && <Gallery
-                itemList={itemList.filter(i => i.status === "Open")}
+                itemList={itemList.filter(i => i.status.name === "Open")}
                 header={'POPULAR LOTS'}
                 button={'VIEW ALL'}>
             </Gallery>}
             {items && <Gallery
-                itemList={itemList.filter(i => i.status === "Upcoming")}
+                itemList={itemList.filter(i => i.status.name === "Upcoming")}
                 header={'UPCOMING AUCTIONS'}
                 button={'VIEW ALL'}>
             </Gallery>}

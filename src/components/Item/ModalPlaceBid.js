@@ -70,7 +70,7 @@ export const ModalPlaceBid = ({item}) => {
         <div>
             <Button
                 onClick={handler}
-                disabled={(item.status !== "Open")}
+                disabled={(item.status.name !== "Open")}
                 size="lg">
                 PLACE BID
             </Button>

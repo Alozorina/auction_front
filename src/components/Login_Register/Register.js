@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import AuthenticationService from "../services/authentication.service";
+import AuthenticationService from "../../services/authentication.service";
 import {Button, Card, Container, Input, Spacer} from "@nextui-org/react";
-import {required, validateLettersOnly,} from "../services/validation/validator";
+import {required, validateLettersOnly,} from "../../services/validation/validator";
 import {toast} from "react-toastify";
 import {
     validateEmailSyntax,
     validateEqual,
     validateNameLength,
     validatePasswordLength
-} from "../services/validation/userValidator";
+} from "../../services/validation/userValidator";
 
 export const Register = () => {
     const [firstname, setFirstname] = useState("");
