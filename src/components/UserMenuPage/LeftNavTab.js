@@ -17,7 +17,7 @@ export const LeftNavTab = () => {
             <Card.Divider css={{width: '95%'}}/>
             <Grid xs={12}>
                 <NavLink
-                    to="/login"
+                    to="/lots"
                     style={({isActive}) => ({
                         color: isActive ? "#FFC300" : "#fff"
                     })}>
@@ -27,7 +27,7 @@ export const LeftNavTab = () => {
             <Card.Divider css={{width: '95%'}}/>
             <Grid xs={12}>
                 <NavLink
-                    to="/login"
+                    to="/purchases"
                     style={({isActive}) => ({
                         color: isActive ? "#FFC300" : "#fff"
                     })}>
