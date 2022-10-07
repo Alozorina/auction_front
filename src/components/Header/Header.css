@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+.navBar{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    background-color: #384857;
+    min-height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0 4px 50px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper {
+    min-height: 64px;
+    min-width: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 7%;
+    position: relative;
+}
+.navItem{
+    float: left;
+    display: inline-block;
+}
+
+#search{
+    margin-right: 27px;
+    margin-top: 7px;
+}
+
+#cart{
+    margin-left: 10px;
+    margin-top: 7px;
+    position: absolute;
+}
+
+.visible {
+    /* display: flex; */
+    top: 0;
+    transition: top 0.4s ease-out;
+}
+
+.hidden {
+    /* display: none; */
+    top: -84px;
+    transition: top 0.4s ease-out;
+}
+
+.navigation-menu {
+    min-width: 95%;
+}
+
+.navigation-menu ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navigation-menu li {
+    margin: 0 0 0 7%;
+}
+
+.hamburger {
+    border: 0;
+    height: 36px;
+    width: 36px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    display: none;
+    fill: currentColor;
+}
+
+.hamburger:hover {
+    fill: #FFC300;
+}
+
+@media screen and (max-width: 1200px) {
+    .hamburger {
+        display: block;
+    }
+
+    .navigation-menu ul {
+        flex-direction: column;
+        position: absolute;
+        top: 65px;
+        right: 0;
+        width: 60%;
+        height: 55rem;
+        background-color: #0d1923;
+        margin: 0;
+        padding-top: 30px;
+        display: none;
+        z-index: 6;
+    }
+
+    .navigation-menu li {
+        text-align: center;
+        margin: 0;
+        padding: 1.5rem 0;
+    }
+
+    .navigation-menu li:hover {
+        background-color: #283244;
+    }
+
+    .navigation-menu.expanded ul {
+        display: block;
+    }
+}
