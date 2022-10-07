@@ -16,4 +16,4 @@ This front-end part was built using React v18.0 with Next UI, React Query and Re
 - Validation of user input
 - Render optimization
 
-<p align="center"><img src="https://s4.gifyu.com/images/auction2.gif"></p>
+<a href="https://gifyu.com/image/S9sgU"><img src="https://s4.gifyu.com/images/auction2.gif" alt="auction.gif" border="0" /></a>
