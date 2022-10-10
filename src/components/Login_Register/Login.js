@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AuthenticationService from "../../services/authentication.service";
-import {Button, Card, Container, Image, Input, Spacer} from "@nextui-org/react";
+import {Button, Card, Container, Image, Input, Spacer, Text} from "@nextui-org/react";
 import {required} from "../../services/validation/validator";
 import { toast } from 'react-toastify';
 import {validateEmailSyntax, validatePasswordLength} from "../../services/validation/userValidator";
@@ -57,7 +57,7 @@ export const Login = () => {
 
     return (
         <Container  css={{mw: "400px", marginTop: "5%"}}>
-            <Card css={{mw: "400px", $$cardColor: '#384857', alignItems: "center", minHeight: "520px"}}>
+            <Card css={{mw: "400px", $$cardColor: '#384857', alignItems: "center", minHeight: "540px"}}>
                 <Card.Body>
                     <Image css={{ marginTop: "15px"}}
                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -80,7 +80,7 @@ export const Login = () => {
                             placeholder="Email"
                             onChange={onChangeEmail}
                         />
-                        <Spacer y={1.1}/>
+                        <Spacer y={1}/>
                         <Input.Password width="250px"
                             label="Password"
                             onBlur={validatePassword}
@@ -99,6 +99,10 @@ export const Login = () => {
                             Login
                         </Button>
                     </form>
+                    <Spacer y={0.5}/>
+                    <Text size="$sm">Don't have an account? &nbsp;
+                        <Link to={"/register"}>Sign up</Link>
+                    </Text>
                 </Card.Body>
             </Card>
         </Container>
