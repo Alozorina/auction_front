@@ -8,22 +8,37 @@ import {ModalPlaceBid} from "./ModalPlaceBid";
 
 const Completionist = () => <span>CLOSED</span>;
 
-export const StatusHandler = (statusName, item) => {
-    switch (statusName) {
+const StatusNameMapper = (item) => {
+    switch (item.status.id) {
+        case 1:
+            return "On Approval"
+        case 2:
+            return "Upcoming"
+        case 3:
+            return "Rejected"
+        case 4:
+            return "Open"
+        default:
+            return "Closed"
+    }
+};
+
+export const StatusHandler = (item) => {
+    switch (item.status.name) {
         case "Open":
-        return <>
-            <Grid xs={12}>
-                <div> Lot closes in: &nbsp; </div>
-                <Text b>
-                    <Countdown date={item.endSaleDate}>
-                        <Completionist/>
-                    </Countdown>
-                </Text>
-            </Grid>
-            <Grid xs={12}>
-                <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>
-            </Grid>
-        </>
+            return <>
+                <Grid xs={12}>
+                    <div> Lot closes in: &nbsp; </div>
+                    <Text b>
+                        <Countdown date={item.endSaleDate}>
+                            <Completionist/>
+                        </Countdown>
+                    </Text>
+                </Grid>
+                <Grid xs={12}>
+                    <Text>{"End Date: "}{item.endSaleDate.replace('T', ',  Time: ')}</Text>
+                </Grid>
+            </>
         case "Upcoming":
             return <>
                 <Grid xs={12}>
@@ -42,7 +57,7 @@ export const StatusHandler = (statusName, item) => {
             return <Grid xs={12}>
                 <div> Status: &nbsp; </div>
                 <Text b>
-                    {statusName}
+                    {StatusNameMapper(item)}
                 </Text>
             </Grid>
     }
@@ -97,7 +112,7 @@ export const ItemProfile = ({item}) => {
                     <Spacer y={1} x={0}/>
                     <Card.Footer>
                         <Grid.Container justify="flex-start">
-                            {StatusHandler(item.status.name, item)}
+                            {StatusHandler(item)}
                             <Spacer y={2.5} x={0}/>
                             <Grid xs={12}>
                                 <ModalPlaceBid item={item}></ModalPlaceBid>
